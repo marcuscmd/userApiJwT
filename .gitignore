@@ -1,0 +1,45 @@
+# Build artifacts
+bin/
+obj/
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Logs
+*.log
+
+# Visual Studio Code
+.vscode/
+
+# Rider
+.idea/
+
+# NuGet Packages
+packages/
+*.nupkg
+
+# Entity Framework Migrations
+Migrations/
+
+# Publish output
+publish/
+
+# Temporary files
+*.tmp
+*.bak
+~$*
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Exclude local development settings, but keep template
+appsettings.Development.json
+!appsettings.json
+
+# Secrets (if any) - Ensure users have a template
+secrets.json
+!secrets.template.json
