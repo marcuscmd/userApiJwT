@@ -45,7 +45,10 @@ namespace Aplicacao
         {
             try
             {
-                await _repositorioUsuario.ExcluirUsuario(usuario);
+                var excluirUsuario = await _repositorioUsuario.ObterUsuarioPorId(usuario.Id);
+                ValidarInformacoes(excluirUsuario);
+
+                await _repositorioUsuario.ExcluirUsuario(excluirUsuario);
             }
             catch (Exception ex)
             {
@@ -58,6 +61,9 @@ namespace Aplicacao
             try
             {
                 var listaUsuarios = await _repositorioUsuario.ObterListaDeUsuarios(ativo);
+                if (!listaUsuarios.Any())
+                    throw new Exception("Lista de Usuario esta vazia!");
+
                 return listaUsuarios;
             }
             catch (Exception ex)
@@ -66,19 +72,49 @@ namespace Aplicacao
             }
         }
 
-        public Task<Usuario> ObterUsuarioPorCpf(string cpf)
+        public async Task<Usuario> ObterUsuarioPorCpf(string cpf)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var cpfUsuario = await _repositorioUsuario.ObterUsuarioPorCpf(cpf);
+                ValidarInformacoes(cpfUsuario);
+
+                return cpfUsuario;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
-        public Task<Usuario> ObterUsuarioPorEmail(string email)
+        public async Task<Usuario> ObterUsuarioPorEmail(string email)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var emailUsuario = await _repositorioUsuario.ObterUsuarioPorEmail(email);
+                ValidarInformacoes(emailUsuario);
+
+                return emailUsuario;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
-        public Task<Usuario> ObterUsuarioPorId(Guid id)
+        public async Task<Usuario> ObterUsuarioPorId(Guid id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var usaurio = await _repositorioUsuario.ObterUsuarioPorId(id);
+                ValidarInformacoes(usaurio);
+
+                return usaurio;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         private void ValidarInformacoes(Usuario usuario)
