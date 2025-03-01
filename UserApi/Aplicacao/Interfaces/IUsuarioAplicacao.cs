@@ -9,4 +9,5 @@ public interface IUsuarioAplicacao
     Task<Usuario> ObterUsuarioPorId(Guid id);
     Task<Usuario> ObterUsuarioPorEmail(string email);
     Task<Usuario> ObterUsuarioPorCpf(string cpf);
+    Task AlterarSenha(Guid id, string senhaAntiga, string senhaNova);
 }

@@ -35,17 +35,22 @@ namespace Repositorio
 
         public async Task<Usuario> ObterUsuarioPorCpf(string cpf)
         {
-            return await _contexto.Usuarios.FirstOrDefaultAsync(u => u.Cpf == cpf);
+            return await _contexto.Usuarios.FirstOrDefaultAsync(u => u.Cpf == cpf && u.Ativo == true);
         }
 
         public async Task<Usuario> ObterUsuarioPorEmail(string email)
         {
-            return await _contexto.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
+            return await _contexto.Usuarios.FirstOrDefaultAsync(u => u.Email == email && u.Ativo == true);
         }
 
         public async Task<Usuario> ObterUsuarioPorId(Guid id)
         {
-            return await _contexto.Usuarios.FirstOrDefaultAsync(u => u.Id == id);
+            return await _contexto.Usuarios.FirstOrDefaultAsync(u => u.Id == id && u.Ativo == true);
+        }
+
+        public async Task<Usuario> ObterUsuarioPorLogin(string login)
+        {
+            return await _contexto.Usuarios.FirstOrDefaultAsync(u => u.Login == login && u.Ativo == true);
         }
     }
 }

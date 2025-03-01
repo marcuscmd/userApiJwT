@@ -19,9 +19,9 @@ namespace Dominio
 
 
 
-        public Usuario(string senha)
+        public Usuario()
         {
-            _senha = senha;
+            _senha = "";
             DataCriacao = DateTime.Now;
             Ativo = true;
         }
@@ -36,7 +36,7 @@ namespace Dominio
             Ativo = false;
         }
 
-        public void AlterarSenha(string senha)
+        public void CriarSenha(string senha)
         {
             _senha = senha;
         }
