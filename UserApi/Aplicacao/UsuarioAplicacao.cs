@@ -31,6 +31,7 @@ namespace Aplicacao
 
                 atualizarUsuario.Nome = usuario.Nome;
                 atualizarUsuario.Sobrenome = usuario.Sobrenome;
+                atualizarUsuario.DataNascimento = usuario.DataNascimento;
 
                 await _repositorioUsuario.AtualizarUsuario(atualizarUsuario);
 
@@ -110,6 +111,28 @@ namespace Aplicacao
                 ValidarInformacoes(usaurio);
 
                 return usaurio;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task AlterarSenha(Guid id, string senhaAntiga, string senhaNova)
+        {
+            try
+            {
+                var obterUsuario = await _repositorioUsuario.ObterUsuarioPorId(id);
+                ValidarInformacoes(obterUsuario);
+                if (obterUsuario.Senha != senhaAntiga)
+                    throw new Exception("Senha antiga incorreta");
+                if (string.IsNullOrWhiteSpace(senhaNova))
+                    throw new Exception("Senha nova não pode ser vazia!");
+                if (senhaAntiga == senhaNova)
+                    throw new Exception("Senha nova não pode ser igual a antiga senha!");
+
+                obterUsuario.CriarSenha(senhaNova);
+                await _repositorioUsuario.AtualizarUsuario(obterUsuario);
             }
             catch (Exception ex)
             {
