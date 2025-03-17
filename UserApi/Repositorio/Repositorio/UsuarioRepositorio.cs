@@ -43,9 +43,9 @@ namespace Repositorio
             return await _contexto.Usuarios.FirstOrDefaultAsync(u => u.Email == email && u.Ativo == true);
         }
 
-        public async Task<Usuario> ObterUsuarioPorId(Guid id)
+        public async Task<Usuario> ObterUsuarioPorId(int id)
         {
-            return await _contexto.Usuarios.FirstOrDefaultAsync(u => u.Id == id && u.Ativo == true);
+            return await _contexto.Usuarios.FirstOrDefaultAsync(u => u.Id == id);
         }
 
         public async Task<Usuario> ObterUsuarioPorLogin(string login)

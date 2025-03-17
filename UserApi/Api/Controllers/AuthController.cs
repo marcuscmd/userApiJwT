@@ -1,29 +1,34 @@
-using System.Security.Principal;
-using Aplicacao;
-using Microsoft.AspNetCore.Mvc;
+// using System.Security.Principal;
+// using Aplicacao;
+// using Microsoft.AspNetCore.Mvc;
 
-[ApiController]
-[Route("[controller]")]
-public class AuthController : ControllerBase
-{
-    private readonly AuthAplicacao _auth;
+// [ApiController]
+// [Route("[controller]")]
+// public class AuthController : ControllerBase
+// {
+//     private readonly IUsuarioAplicacao _aplicacaoUsuario;
+//     private readonly IAuthAplicacao _auth;
 
-    public AuthController(AuthAplicacao auth)
-    {
-        _auth = auth;
-    }
-    [HttpPost("logar_usuario")]
-    public async Task<IActionResult> Logar([FromBody] AuthUsuario usuario)
-    {
-        try
-        {
-            var logar = await _auth.AutenticarUsuario(usuario.Login, usuario.Senha);
-            return Ok(new {token = logar});
+//     public AuthController(IAuthAplicacao auth, IUsuarioAplicacao aplicacaoUsuario)
+//     {
+//         _auth = auth;
+//         _aplicacaoUsuario = aplicacaoUsuario;
+//     }
+//     [HttpPost("logar_usuario")]
+//     public async Task<IActionResult> Logar([FromBody] AuthUsuario usuario)
+//     {
+//         try
+//         {
+//             var usuarioAutenticar = await _aplicacaoUsuario.ObterUsuarioPorLogin(usuario.Login);
 
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
-    }
-}
+//             var gerarToken = await _auth.ValidarLogin(usuario.Login, usuario.Senha);
+
+//             return Ok(new {token = gerarToken});
+
+//         }
+//         catch (Exception ex)
+//         {
+//             return BadRequest(ex.Message);
+//         }
+//     }
+// }
