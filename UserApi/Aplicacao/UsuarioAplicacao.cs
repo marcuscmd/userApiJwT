@@ -42,6 +42,44 @@ namespace Aplicacao
             }
         }
 
+        public async Task DesativarUsuario(int id)
+        {
+            try
+            {
+                var atualizarUsuario = await _repositorioUsuario.ObterUsuarioPorId(id);
+                ValidarInformacoes(atualizarUsuario);
+                if (!atualizarUsuario.Ativo)
+                    throw new Exception("Usuario já esta desativado");
+
+                atualizarUsuario.DesativarUsuario();
+
+                await _repositorioUsuario.AtualizarUsuario(atualizarUsuario);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task AtivarUsuario(int id)
+        {
+            try
+            {
+                var atualizarUsuario = await _repositorioUsuario.ObterUsuarioPorId(id);
+                ValidarInformacoes(atualizarUsuario);
+                if (atualizarUsuario.Ativo)
+                    throw new Exception("Usuario já esta ativo");
+
+                atualizarUsuario.AtivarUsuario();
+
+                await _repositorioUsuario.AtualizarUsuario(atualizarUsuario);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public async Task ExcluirUsuario(Usuario usuario)
         {
             try
@@ -88,6 +126,21 @@ namespace Aplicacao
             }
         }
 
+        public async Task<Usuario> ObterUsuarioPorLogin(string login)
+        {
+            try
+            {
+                var usuario = await _repositorioUsuario.ObterUsuarioPorLogin(login);
+                ValidarInformacoes(usuario);
+
+                return usuario;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public async Task<Usuario> ObterUsuarioPorEmail(string email)
         {
             try
@@ -103,7 +156,7 @@ namespace Aplicacao
             }
         }
 
-        public async Task<Usuario> ObterUsuarioPorId(Guid id)
+        public async Task<Usuario> ObterUsuarioPorId(int id)
         {
             try
             {
@@ -118,7 +171,7 @@ namespace Aplicacao
             }
         }
 
-        public async Task AlterarSenha(Guid id, string senhaAntiga, string senhaNova)
+        public async Task AlterarSenha(int id, string senhaAntiga, string senhaNova)
         {
             try
             {

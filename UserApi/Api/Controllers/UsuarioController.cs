@@ -1,4 +1,5 @@
 using Dominio;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Resposta;
 
@@ -15,7 +16,7 @@ public class UsuarioController : ControllerBase
     }
 
     [HttpGet("usuario/{id}")]
-    public async Task<IActionResult> ObterUsuarioId([FromRoute] Guid id)
+    public async Task<IActionResult> ObterUsuarioId([FromRoute] int id)
     {
         try
         {
@@ -92,16 +93,16 @@ public class UsuarioController : ControllerBase
     }
 
     [HttpPut("atualizar_usuario/{id}")]
-    public async Task<IActionResult> AtualizarUsuario([FromBody] AtualizarUsuario usuario, [FromRoute] Guid id)
+    public async Task<IActionResult> AtualizarUsuario([FromBody] AtualizarUsuario usuario, [FromRoute] int id)
     {
         try
         {
             var obterUsuario = await _usuarioAplicacao.ObterUsuarioPorId(id);
             Usuario atualizarUsurio = new Usuario()
             {
+                Id = obterUsuario.Id,
                 Nome = usuario.Nome,
                 Sobrenome = usuario.Sobrenome,
-                Email = usuario.Email,
                 DataNascimento = usuario.DataNascimento,
             };
 
@@ -116,15 +117,11 @@ public class UsuarioController : ControllerBase
     }
 
     [HttpPut("excluir_usuario/{id}")]
-    public async Task<IActionResult> ExcluirUsuario([FromRoute] Guid id)
+    public async Task<IActionResult> ExcluirUsuario([FromRoute] int id)
     {
         try
         {
-            var usuario = await _usuarioAplicacao.ObterUsuarioPorId(id);
-            usuario.DesativarUsuario();
-
-            await _usuarioAplicacao.AtualizarUsuario(usuario);
-
+            await _usuarioAplicacao.DesativarUsuario(id);
             return Ok("Usuario excluido com sucesso!");
         }
         catch (Exception ex)
@@ -134,7 +131,7 @@ public class UsuarioController : ControllerBase
     }
 
     [HttpPut("alterar_senha/{id}")]
-    public async Task<IActionResult> AlterarSenha([FromBody] AlterarSenha alterarSenha, [FromRoute] Guid id)
+    public async Task<IActionResult> AlterarSenha([FromBody] AlterarSenha alterarSenha, [FromRoute] int id)
     {
         try
         {
@@ -150,16 +147,13 @@ public class UsuarioController : ControllerBase
     }
 
     [HttpPut("restaurar_usuario/{id}")]
-    public async Task<IActionResult> RestaurarUsuario([FromRoute] Guid id)
+    public async Task<IActionResult> RestaurarUsuario([FromRoute] int id)
     {
         try
         {
-            var usuario = await _usuarioAplicacao.ObterUsuarioPorId(id);
-            usuario.AtivarUsuario();
+            await _usuarioAplicacao.AtivarUsuario(id);
 
-            await _usuarioAplicacao.AtualizarUsuario(usuario);
-
-            return Ok("Usuario excluido com sucesso!");
+            return Ok("Usuario restaurado com sucesso com sucesso!");
         }
         catch (Exception ex)
         {

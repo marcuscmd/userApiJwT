@@ -6,7 +6,7 @@ namespace Dominio
     {
         private string _senha;
 
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public string Nome { get; set; }
         public string Sobrenome { get; set; }
         public string Cpf { get; set; }
